@@ -1,0 +1,58 @@
+# 將靜態內容部署到 GitHub Pages 的簡易工作流程
+name: Deploy static content to Pages
+
+on:
+  # 僅在推送到預設分支時執行。
+  push:
+    branches: ["main"]
+
+  # 允許你從 Actions 索引標籤手動執行此工作流程
+  workflow_dispatch:
+
+# 設定 GITHUB_TOKEN 的權限，以允許部署到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 允許只有一個同時發生的部署，跳過正在執行和最新排入佇列之間的執行。
+# 但是，不要取消正在執行的執行，因為我們希望允許這些生產部署能夠順利完成。
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 單次部署工作
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 上傳 dist 目錄 (Vite 預設的產出資料夾)
+          path: "./dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
