@@ -1,6 +1,6 @@
 export const resumeData = {
   name: "黃品綺 (Cassie)",
-  profileImage: "/profile.jpg", // 替換為您的照片 URL 或本地路徑 (例如: /profile.jpg)
+  profileImage: "./profile.jpg", // 替換為您的照片 URL 或本地路徑 (例如: /profile.jpg)
   title: "AI 軟體工程師 / 後端工程師",
   tags: ["好學", "勇於挑戰", "耐心", "自律", "生成式AI", "後端"],
   contact: {
