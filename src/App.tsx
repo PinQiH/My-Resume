@@ -187,10 +187,43 @@ export default function App() {
               className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
             >
               <SectionHeading icon={User} title="自傳" />
-              <div className="space-y-4 text-slate-600 leading-relaxed">
-                {resumeData.about.map((paragraph, idx) => (
-                  <p key={idx} className="whitespace-pre-line">{paragraph}</p>
-                ))}
+              <div className="space-y-6">
+                {resumeData.about.map((paragraph, idx) => {
+                  const isHighlight = paragraph.startsWith('▍');
+                  if (idx === 0 || !isHighlight) {
+                    // 第一段引言或非核心優勢段落
+                    return (
+                      <p key={idx} className="whitespace-pre-line text-slate-700 leading-[1.8] text-lg">
+                        {paragraph}
+                      </p>
+                    );
+                  }
+                  
+                  // 處理「▍核心優勢...」這類的結構化文字
+                  const lines = paragraph.split('\n');
+                  const title = lines[0].replace('▍', '').trim();
+                  const contentLines = lines.slice(1);
+
+                  return (
+                    <div key={idx} className="bg-slate-50 border border-slate-100 p-6 rounded-2xl relative overflow-hidden">
+                      <div className="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
+                      <h4 className="text-xl font-bold text-slate-800 mb-4">{title}</h4>
+                      <div className="space-y-3">
+                        {contentLines.map((line, i) => {
+                           if (line.startsWith('•')) {
+                             return (
+                               <p key={i} className="text-slate-700 leading-[1.7] pl-5 relative">
+                                  <span className="absolute left-1.5 top-2.5 w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
+                                  {line.replace(/^•\s*/, '')}
+                               </p>
+                             );
+                           }
+                           return <p key={i} className="text-slate-700 leading-[1.7]">{line}</p>;
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </motion.section>
 
@@ -202,7 +235,7 @@ export default function App() {
               className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
             >
               <SectionHeading icon={Briefcase} title="工作經驗" />
-              <div className="space-y-10">
+              <div className="space-y-12">
                 {resumeData.experience.map((exp, idx) => (
                   <div key={idx} className="relative">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
@@ -211,16 +244,27 @@ export default function App() {
                         {exp.period}
                       </span>
                     </div>
-                    <p className="text-lg font-medium text-slate-700 mb-1">{exp.title}</p>
-                    <p className="text-sm text-slate-500 mb-4">{exp.location}</p>
-                    <p className="text-slate-600 mb-4">{exp.description}</p>
+                    <p className="text-lg font-medium text-indigo-600 mb-1">{exp.title}</p>
+                    <p className="text-sm text-slate-400 mb-5">{exp.location}</p>
+                    <p className="text-slate-700 leading-relaxed mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100">{exp.description}</p>
                     
                     {exp.details && (
-                      <div className="space-y-2">
+                      <div className="space-y-4">
                         {exp.details.map((detail, i) => (
-                          <p key={i} className="text-sm text-slate-600 whitespace-pre-line pl-4 border-l-2 border-slate-100">
-                            {detail}
-                          </p>
+                          <div key={i} className="text-slate-700">
+                            {detail.split('\n').map((line, j) => {
+                              const isTitle = line.startsWith('【') || line.startsWith('#');
+                              if (isTitle) {
+                                return <p key={j} className="font-bold text-slate-800 mt-5 mb-2">{line}</p>;
+                              }
+                              return (
+                                <p key={j} className="leading-[1.7] pl-5 relative mb-2">
+                                  <span className="absolute left-1.5 top-2.5 w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
+                                  {line.replace(/^[•‧-]\s*/, '')}
+                                </p>
+                              );
+                            })}
+                          </div>
                         ))}
                       </div>
                     )}
@@ -237,33 +281,48 @@ export default function App() {
               className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
             >
               <SectionHeading icon={FolderGit2} title="專案成就" />
-              <div className="space-y-10">
+              <div className="space-y-12">
                 {resumeData.projects.map((project, idx) => (
-                  <div key={idx} className="group">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                      <h3 className="text-xl font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
+                  <div key={idx} className="group pb-8 border-b border-slate-100 last:border-0 last:pb-0">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 gap-2">
+                      <h3 className="text-xl font-bold text-slate-800 leading-snug group-hover:text-indigo-600 transition-colors">
                         {project.name}
                       </h3>
-                      <span className="text-sm text-slate-400 mt-1 sm:mt-0 shrink-0">
+                      <span className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full shrink-0">
                         {project.period}
                       </span>
                     </div>
                     
-                    <p className="text-slate-600 mb-4">{project.description}</p>
+                    <p className="text-slate-600 leading-relaxed mb-5">{project.description}</p>
                     
-                    <div className="mb-4">
-                      <span className="text-sm font-semibold text-slate-700">技術堆疊：</span>
-                      <span className="text-sm text-slate-600">{project.techStack}</span>
+                    <div className="mb-6 flex flex-wrap gap-2 items-center">
+                      <span className="text-sm font-semibold text-slate-800">技術堆疊：</span>
+                      {project.techStack.split(',').map((tech, i) => (
+                        <span key={i} className="text-sm text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-md">
+                          {tech.trim()}
+                        </span>
+                      ))}
                     </div>
 
-                    <ul className="space-y-2">
-                      {project.achievements.map((achievement, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0"></div>
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-bold text-slate-800 mb-3">專案亮點</h4>
+                      <ul className="space-y-3">
+                        {project.achievements.map((achievement, i) => (
+                          <li key={i} className="flex items-start gap-3 text-slate-700 leading-[1.7]">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2.5 shrink-0"></div>
+                            <span>
+                              {/* 粗體呈現冒號前的副標題 */}
+                              {achievement.includes('：') ? (
+                                <>
+                                  <span className="font-semibold text-slate-800">{achievement.split('：')[0]}：</span>
+                                  {achievement.split('：').slice(1).join('：')}
+                                </>
+                              ) : achievement}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 ))}
               </div>
