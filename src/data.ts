@@ -9,7 +9,7 @@ export const resumeData = {
     contactNote: "聯絡請以 Email 為主",
     location: "桃園市桃園區",
     github: "https://github.com/cassie34131",
-    linkedin: "https://www.linkedin.com/in/cassie-ba743537b/?locale=en_US",
+    linkedin: "https://www.linkedin.com/in/cassie-ba743537b",
   },
   summary: "具備三年 Node.js 後端開發經驗，精通 Express、Sequelize 與 PostgreSQL，擅長設計高擴展性的 API 架構。長期關注生成式 AI 技術落地，開發多套 RAG (檢索增強生成) 與多代理人 (Multi-Agent) 架構應用。具備從資料特徵工程、向量資料庫建置到 LLM 代理人協作的完整系統整合經驗，致力於結合穩健的後端工程與創新的 AI 技術解決商業痛點。",
   about: [

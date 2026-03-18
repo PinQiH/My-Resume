@@ -8,12 +8,12 @@ import { motion } from 'motion/react';
 import { 
   Mail, Phone, MapPin, Github, Linkedin,
   Briefcase, GraduationCap, Code, Award, 
-  User, FolderGit2, ChevronRight, ExternalLink
+  User, FolderGit2, ChevronRight, ExternalLink, Download
 } from 'lucide-react';
 import { resumeData } from './data';
 
 const SectionHeading = ({ icon: Icon, title }: { icon: any, title: string }) => (
-  <div className="flex items-center gap-3 mb-6 border-b border-slate-200 pb-2">
+  <div className="flex items-center gap-3 mb-6 border-b border-slate-200 pb-2 print:break-after-avoid">
     <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
       <Icon size={20} />
     </div>
@@ -26,6 +26,17 @@ export default function App() {
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
         
+        {/* Actions */}
+        <div className="flex justify-end mb-6 print:hidden">
+          <button 
+            onClick={() => window.print()}
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm hover:shadow active:scale-95"
+          >
+            <Download size={18} />
+            <span>下載 / 列印履歷</span>
+          </button>
+        </div>
+
         {/* Header Section */}
         <motion.header 
           initial={{ opacity: 0, y: 20 }}
@@ -87,12 +98,14 @@ export default function App() {
               </div>
               <a href={resumeData.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-indigo-600 transition-colors">
                 <Github size={18} />
-                <span>GitHub Profile</span>
+                <span className="print:hidden">GitHub Profile</span>
+                <span className="hidden print:inline text-sm font-medium">{resumeData.contact.github.replace(/^https?:\/\//, '')}</span>
               </a>
               {resumeData.contact.linkedin && (
                 <a href={resumeData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-indigo-600 transition-colors">
                   <Linkedin size={18} />
-                  <span>LinkedIn Profile</span>
+                  <span className="print:hidden">LinkedIn Profile</span>
+                  <span className="hidden print:inline text-sm font-medium">{resumeData.contact.linkedin.replace(/^https?:\/\//, '')}</span>
                 </a>
               )}
             </div>
@@ -109,12 +122,12 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
+              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 print:break-inside-avoid"
             >
               <SectionHeading icon={Code} title="專長與技術" />
               <div className="space-y-8">
                 {resumeData.skills.map((skillGroup, idx) => (
-                  <div key={idx}>
+                  <div key={idx} className="print:break-inside-avoid">
                     <h3 className="text-lg font-semibold text-slate-800 mb-4">{skillGroup.category}</h3>
                     <div className="space-y-4">
                       {skillGroup.items.map((item, i) => (
@@ -141,12 +154,12 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
+              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 print:break-inside-avoid"
             >
               <SectionHeading icon={GraduationCap} title="學歷" />
               <div className="space-y-6">
                 {resumeData.education.map((edu, idx) => (
-                  <div key={idx} className="relative pl-4 border-l-2 border-slate-200">
+                  <div key={idx} className="relative pl-4 border-l-2 border-slate-200 print:break-inside-avoid">
                     <div className="absolute w-2 h-2 bg-indigo-400 rounded-full -left-[5px] top-2"></div>
                     <h3 className="font-semibold text-slate-800">{edu.school}</h3>
                     <p className="text-slate-600 text-sm mt-1">{edu.department}</p>
@@ -161,10 +174,10 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
+              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 print:break-inside-avoid"
             >
               <SectionHeading icon={Award} title="證照與語言" />
-              <ul className="space-y-3">
+              <ul className="space-y-3 print:break-inside-avoid">
                 {resumeData.certifications.map((cert, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm text-slate-600">
                     <ChevronRight size={16} className="text-indigo-400 shrink-0 mt-0.5" />
@@ -184,7 +197,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8"
+              className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 print:break-inside-avoid"
             >
               <SectionHeading icon={User} title="自傳" />
               <div className="space-y-6">
@@ -193,7 +206,7 @@ export default function App() {
                   if (idx === 0 || !isHighlight) {
                     // 第一段引言或非核心優勢段落
                     return (
-                      <p key={idx} className="whitespace-pre-line text-slate-700 leading-[1.8] text-lg">
+                      <p key={idx} className="whitespace-pre-line text-slate-700 leading-[1.8] text-lg print:break-inside-avoid">
                         {paragraph}
                       </p>
                     );
@@ -205,7 +218,7 @@ export default function App() {
                   const contentLines = lines.slice(1);
 
                   return (
-                    <div key={idx} className="bg-slate-50 border border-slate-100 p-6 rounded-2xl relative overflow-hidden">
+                    <div key={idx} className="bg-slate-50 border border-slate-100 p-6 rounded-2xl relative overflow-hidden print:break-inside-avoid">
                       <div className="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
                       <h4 className="text-xl font-bold text-slate-800 mb-4">{title}</h4>
                       <div className="space-y-3">
@@ -237,7 +250,7 @@ export default function App() {
               <SectionHeading icon={Briefcase} title="工作經驗" />
               <div className="space-y-12">
                 {resumeData.experience.map((exp, idx) => (
-                  <div key={idx} className="relative">
+                  <div key={idx} className="relative print:break-inside-avoid">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
                       <h3 className="text-xl font-bold text-slate-800">{exp.company}</h3>
                       <span className="text-sm font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full w-fit mt-2 sm:mt-0">
@@ -283,7 +296,7 @@ export default function App() {
               <SectionHeading icon={FolderGit2} title="專案成就" />
               <div className="space-y-12">
                 {resumeData.projects.map((project, idx) => (
-                  <div key={idx} className="group pb-8 border-b border-slate-100 last:border-0 last:pb-0">
+                  <div key={idx} className="group pb-8 border-b border-slate-100 last:border-0 last:pb-0 print:break-inside-avoid print:border-b-0">
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 gap-2">
                       <h3 className="text-xl font-bold text-slate-800 leading-snug group-hover:text-indigo-600 transition-colors">
                         {project.name}
