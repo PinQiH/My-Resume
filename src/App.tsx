@@ -84,7 +84,7 @@ export default function App() {
                   💡 {resumeData.contact.contactNote}
                 </div>
               )}
-              <a href={`mailto:${resumeData.contact.email}`} className="flex items-center gap-3 hover:text-indigo-600 transition-colors font-medium text-slate-800">
+              <a href={`mailto:${resumeData.contact.email}`} className="screen-only flex items-center gap-3 hover:text-indigo-600 transition-colors font-medium text-slate-800">
                 <Mail size={18} className="text-indigo-500" />
                 <span>{resumeData.contact.email}</span>
               </a>
@@ -96,18 +96,23 @@ export default function App() {
                 <MapPin size={18} />
                 <span>{resumeData.contact.location}</span>
               </div>
-              <a href={resumeData.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-indigo-600 transition-colors">
+              <a href={resumeData.contact.github} target="_blank" rel="noopener noreferrer" className="screen-only flex items-center gap-3 hover:text-indigo-600 transition-colors">
                 <Github size={18} />
-                <span className="print:hidden">GitHub Profile</span>
-                <span className="hidden print:inline text-sm font-medium">{resumeData.contact.github.replace(/^https?:\/\//, '')}</span>
+                <span>GitHub Profile</span>
               </a>
-              {resumeData.contact.linkedin && (
-                <a href={resumeData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-indigo-600 transition-colors">
-                  <Linkedin size={18} />
-                  <span className="print:hidden">LinkedIn Profile</span>
-                  <span className="hidden print:inline text-sm font-medium">{resumeData.contact.linkedin.replace(/^https?:\/\//, '')}</span>
-                </a>
-              )}
+              <a href={resumeData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="screen-only flex items-center gap-3 hover:text-indigo-600 transition-colors">
+                <Linkedin size={18} />
+                <span>LinkedIn Profile</span>
+              </a>
+              {/* > 列印版純文字（螢幕時隱藏，列印時顯示為可選取文字） */}
+              <div className="print-only flex items-center gap-3 text-sm font-medium">
+                <Github size={18} />
+                <span>{resumeData.contact.github.replace(/^https?:\/\//, '')}</span>
+              </div>
+              <div className="print-only flex items-center gap-3 text-sm font-medium">
+                <Linkedin size={18} />
+                <span>{resumeData.contact.linkedin.replace(/^https?:\/\//, '')}</span>
+              </div>
             </div>
           </div>
         </motion.header>
