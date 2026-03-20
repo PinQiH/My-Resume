@@ -8,7 +8,8 @@ import { motion } from 'motion/react';
 import { 
   Mail, Phone, MapPin, Github, Linkedin,
   Briefcase, GraduationCap, Code, Award, 
-  User, FolderGit2, ChevronRight, ExternalLink, Download
+  User, FolderGit2, ChevronRight, ExternalLink, Download,
+  Cake
 } from 'lucide-react';
 import { resumeData } from './data';
 
@@ -89,28 +90,34 @@ export default function App() {
                 <span>{resumeData.contact.email}</span>
               </a>
               <div className="flex items-center gap-3">
-                <Phone size={18} />
+                <Phone size={18} className="text-indigo-500 shrink-0" />
                 <span>{resumeData.contact.phone}</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin size={18} />
+                <MapPin size={18} className="text-indigo-500 shrink-0" />
                 <span>{resumeData.contact.location}</span>
               </div>
+              {resumeData.contact.birthday && (
+                <div className="flex items-center gap-3">
+                  <Cake size={18} className="text-indigo-500 shrink-0" />
+                  <span>{resumeData.contact.birthday}</span>
+                </div>
+              )}
               <a href={resumeData.contact.github} target="_blank" rel="noopener noreferrer" className="screen-only flex items-center gap-3 hover:text-indigo-600 transition-colors">
-                <Github size={18} />
+                <Github size={18} className="text-indigo-500 shrink-0" />
                 <span>GitHub Profile</span>
               </a>
               <a href={resumeData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="screen-only flex items-center gap-3 hover:text-indigo-600 transition-colors">
-                <Linkedin size={18} />
+                <Linkedin size={18} className="text-indigo-500 shrink-0" />
                 <span>LinkedIn Profile</span>
               </a>
               {/* > 列印版純文字（螢幕時隱藏，列印時顯示為可選取文字） */}
               <div className="print-only flex items-center gap-3 text-sm font-medium">
-                <Github size={18} />
+                <Github size={18} className="text-indigo-500 shrink-0" />
                 <span>{resumeData.contact.github.replace(/^https?:\/\//, '')}</span>
               </div>
               <div className="print-only flex items-center gap-3 text-sm font-medium">
-                <Linkedin size={18} />
+                <Linkedin size={18} className="text-indigo-500 shrink-0" />
                 <span>{resumeData.contact.linkedin.replace(/^https?:\/\//, '')}</span>
               </div>
             </div>

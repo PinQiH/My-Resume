@@ -10,6 +10,7 @@ export const resumeData = {
     location: "桃園市桃園區",
     github: "https://github.com/cassie34131",
     linkedin: "https://www.linkedin.com/in/cassie-ba743537b",
+    birthday: "2000.11.29",
   },
   summary: "具備三年 Node.js 後端開發經驗，精通 Express、Sequelize 與 PostgreSQL，擅長設計高擴展性的 API 架構。長期關注生成式 AI 技術落地，開發多套 RAG (檢索增強生成) 與多代理人 (Multi-Agent) 架構應用。具備從資料特徵工程、向量資料庫建置到 LLM 代理人協作的完整系統整合經驗，致力於結合穩健的後端工程與創新的 AI 技術解決商業痛點。",
   about: [
@@ -133,7 +134,7 @@ export const resumeData = {
     {
       name: "大型軌道運輸智能客服與知識庫 (生成式 AI 架構規劃)",
       period: "2025/01 ~ 2025/05",
-      description: "擔任此大型案的專案組長 (Team Lead)，主導軌道運輸業者之生成式 AI 智能客服與內部知識庫架構規劃。不僅負責底層技術選型與產出 RAG (檢索增強生成) 落地架構，更全面統整團隊開發進度與對外競賽事務。",
+      description: "擔任此大型專案的技術組長 (Tech Lead)，主導軌道運輸業者之生成式 AI 智能客服與內部知識庫架構規劃。不僅負責底層技術選型與產出 RAG (檢索增強生成) 落地架構，更全面統整團隊開發進度與對外競賽事務。",
       techStack: "Tech Leadership, Project Management, AI System Architecture, RAG, LLM",
       achievements: [
         "AI 系統架構設計：主導規劃智能客服系統底層架構，運用 RAG 技術深度整合軌道運輸領域之龐大專業知識庫，大幅提升系統問答精準度與客服支援效率。",
